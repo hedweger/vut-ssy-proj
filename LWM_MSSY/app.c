@@ -30,21 +30,24 @@ void HAL_UartBytesReceived(uint16_t bytes) { HAL_UartWriteString(bytes); }
 
 void APP_dataSend(AppMsgType_t msgType, uint8_t addr) {
   RouteTable_t route = routeTable[addr];
-  dataReq.data = msgType;
-  switch (msgType) {
-  case OFFER:
-    dataReq.data = &addr;
-    dataReq.size = sizeof(uint8_t);
-    break;
-  case APPDATA:
-    dataReq.data = &"data";
-    dataReq.size = sizeof(dataReq.data);
-    break;
-  }
-
+  dataReq.data->msgType = msgType;
   dataReq.dstAddr = route.addr;
   dataReq.dstEndpoint = route.endpoint;
   dataReq.srcEndpoint = route.endpoint;
+  switch (msgType) {
+  case DISCOVER:
+	dataReq.dstAddr = route.addr;
+	dataReq.dstEndpoint = route.endpoint;
+	dataReq.srcEndpoint = route.endpoint;
+    break;
+  case OFFER:
+    dataReq.data->data = &addr;
+    break;
+  case APPDATA:
+    dataReq.data->data = &"data";
+    break;
+  }
+  dataReq.size = sizeof(dataReq.data);
   dataReq.options = NWK_OPT_ENABLE_SECURITY;
   dataReq.confirm = APP_dataConf;
   NWK_DataReq(&dataReq);
@@ -115,7 +118,7 @@ bool APP_dataRecv(NWK_DataInd_t *ind) {
     /*
      * Place to handle receiving data from clients.
      */
-    for (int i = 0; i < recv->size; i++) {
+    for (int i = 0; i < ind->size; i++) {
       HAL_UartWriteByte(recv->data[i]);
     }
     break;

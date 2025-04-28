@@ -39,7 +39,7 @@ typedef enum SensorType_t {
 
 typedef struct AppMsg_t {
 	// header
-	uint8_t size;
+	// uint8_t size;
 	AppMsgType_t msgType;
 	// data
 	uint8_t *data;
