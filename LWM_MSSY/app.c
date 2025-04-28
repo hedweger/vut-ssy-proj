@@ -25,21 +25,23 @@ static uint8_t appMsgBuffer[NWK_MAX_PAYLOAD_SIZE - sizeof(AppMsg_t)];
 
 static RouteTable_t routeTable[ROUTE_TABLE_SIZE];
 static uint8_t routeTablePtr = 0;
+static uint16_t routerAddr = 00;
 
 void HAL_UartBytesReceived(uint16_t bytes) { HAL_UartWriteString(bytes); }
 
 void APP_dataSend(AppMsgType_t msgType, uint8_t addr) {
-  RouteTable_t route = routeTable[addr];
   dataReq.data->msgType = msgType;
+#if DESIGNATION == 1
+  dataReq.dstAddr = routerAddr;
+  dataReq.dstEndpoint = APP_ENDPOINT;
+  dataReq.srcEndpoint = APP_ENDPOINT;
+#else
+  RouteTable_t route = routeTable[addr];
   dataReq.dstAddr = route.addr;
   dataReq.dstEndpoint = route.endpoint;
   dataReq.srcEndpoint = route.endpoint;
+#endif
   switch (msgType) {
-  case DISCOVER:
-	dataReq.dstAddr = route.addr;
-	dataReq.dstEndpoint = route.endpoint;
-	dataReq.srcEndpoint = route.endpoint;
-    break;
   case OFFER:
     dataReq.data->data = &addr;
     break;
@@ -61,7 +63,7 @@ void APP_dataSend(AppMsgType_t msgType, uint8_t addr) {
  * Should only be called when the server offers the config,
  * on accept from client, the in_use flag needs to be set,
  * otherwise the server will rewrite the entry on next pass.
- * The route table has 65535 entries
+ * The route table has 256 entries
  */
 uint16_t APP_pushAddr(uint8_t endpoint, uint8_t *data) {
   if (routeTable[routeTablePtr].in_use) {
@@ -85,7 +87,7 @@ bool APP_dataRecv(NWK_DataInd_t *ind) {
   case RELEASE:
     /*
      * Client handles the release of
-     * its adress on its own.
+     * its address on its own.
      * The APP_ACK is no necessary, but
      * it seems like a good idea.
      */
@@ -95,9 +97,9 @@ bool APP_dataRecv(NWK_DataInd_t *ind) {
     /*
      * Client handles the offer, then sends APP_ACK or
      * NAPP_ACK.
-     * Ater NAPP_ACK, the server will send another
+     * After NAPP_ACK, the server will send another
      * OFFER. The client shouldn't be evil and request
-     * adresses unecessarily, even though nothing
+     * addresses unnecessarily, even though nothing
      * bad could theoretically happen.
      */
     if (1 == 1) {
@@ -131,7 +133,7 @@ bool APP_dataRecv(NWK_DataInd_t *ind) {
   case DISCOVER:
   case DECLINE:
     /*
-     * Adresses are stored in routeTable,
+     * Addresses are stored in routeTable,
      * on DISCOVER, the pointer is incremented
      * and stored in the table.
      * On DECLINE, the server does the same.
@@ -139,21 +141,21 @@ bool APP_dataRecv(NWK_DataInd_t *ind) {
      * a client can refuse, I assume clients are
      * not evil.
      * Also, I presume that clients will not
-     * request new adresses once they receive
+     * request new addresses once they receive
      * one.
      */
-    routeTablePtr++;
-    int16_t addr = APP_pushAddr(ind->srcEndpoint, ind->data);
-    APP_dataSend(OFFER, addr);
+     routeTablePtr++;
+     routeTablePtr = APP_pushAddr(ind->srcEndpoint, ind->data);
+    APP_dataSend(OFFER, ind->srcAddr);
     break;
   case REQUEST:
     /*
      * REQUEST is a confirmation from the client,
-     * that they accept the adress and will use it
+     * that they accept the address and will use it
      * in further communication.
      * Therefore, it is presumed the REQUEST message
-     * will be sent with the server-assigned adress,
-     * so the server can set their adress as in use
+     * will be sent with the server-assigned address,
+     * so the server can set their d as in use
      * in the routing table.
      */
     routeTable[ind->srcAddr].in_use = true;
