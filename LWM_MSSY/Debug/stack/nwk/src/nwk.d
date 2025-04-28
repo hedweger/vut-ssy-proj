@@ -25,7 +25,7 @@ stack/nwk/src/nwk.d stack/nwk/src/nwk.o: ../stack/nwk/src/nwk.c \
  ../stack/nwk/inc/nwkSecurity.h ../stack/nwk/inc/nwkRouteDiscovery.h \
  ../stack/nwk/inc/nwk.h ../stack/nwk/inc/nwkRoute.h \
  ../stack/nwk/inc/nwkGroup.h ../stack/nwk/inc/nwkSecurity.h \
- ../stack/nwk/inc/nwkDataReq.h
+ ../stack/nwk/inc/nwkDataReq.h ../app_header.h
 
 c:\apps\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
@@ -98,3 +98,5 @@ c:\apps\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmsp
 ../stack/nwk/inc/nwkSecurity.h:
 
 ../stack/nwk/inc/nwkDataReq.h:
+
+../app_header.h:

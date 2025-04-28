@@ -22,7 +22,7 @@ stack/nwk/src/nwkTx.d stack/nwk/src/nwkTx.o: ../stack/nwk/src/nwkTx.c \
  c:\apps\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
  ../stack/nwk/inc/nwkRx.h ../stack/nwk/inc/nwkFrame.h \
  ../stack/nwk/inc/nwkGroup.h ../stack/nwk/inc/nwkSecurity.h \
- ../stack/nwk/inc/nwkDataReq.h ../stack/nwk/inc/nwkTx.h \
+ ../stack/nwk/inc/nwkDataReq.h ../app_header.h ../stack/nwk/inc/nwkTx.h \
  ../stack/nwk/inc/nwkFrame.h ../stack/nwk/inc/nwkRoute.h \
  ../stack/nwk/inc/nwkCommand.h ../stack/nwk/inc/nwkSecurity.h
 
@@ -85,6 +85,8 @@ c:\apps\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmsp
 ../stack/nwk/inc/nwkSecurity.h:
 
 ../stack/nwk/inc/nwkDataReq.h:
+
+../app_header.h:
 
 ../stack/nwk/inc/nwkTx.h:
 

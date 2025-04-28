@@ -52,6 +52,8 @@
 #include <stdbool.h>
 #include "sysConfig.h"
 #include "sysTypes.h"
+#include "app_header.h"
+#include "config.h"
 
 /*- Types ------------------------------------------------------------------*/
 enum
@@ -79,7 +81,11 @@ typedef struct NWK_DataReq_t
   uint8_t      memberRadius;
   uint8_t      nonMemberRadius;
 #endif
+#if APP_ENABLED == 0
   uint8_t      *data;
+#else
+  AppMsg_t     *data;
+#endif
   uint8_t      size;
   void         (*confirm)(struct NWK_DataReq_t *req);
 

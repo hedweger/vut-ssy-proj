@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "main.h"
 #include "app.h"
 #include "halUart.h"
 #include "nwk.h"
@@ -29,6 +30,7 @@ void HAL_UartBytesReceived(uint16_t bytes) { HAL_UartWriteString(bytes); }
 
 void APP_dataSend(AppMsgType_t msgType, uint8_t addr) {
   RouteTable_t route = routeTable[addr];
+  dataReq.data = msgType;
   switch (msgType) {
   case OFFER:
     dataReq.data = &addr;

@@ -22,7 +22,7 @@ stack/nwk/src/nwkRouteDiscovery.d stack/nwk/src/nwkRouteDiscovery.o: \
  ../stack/nwk/inc/nwk.h ../stack/nwk/inc/nwkRoute.h \
  ../stack/nwk/inc/nwkRx.h ../stack/nwk/inc/nwkFrame.h \
  ../stack/nwk/inc/nwkGroup.h ../stack/nwk/inc/nwkSecurity.h \
- ../stack/nwk/inc/nwkDataReq.h ../stack/nwk/inc/nwkTx.h \
+ ../stack/nwk/inc/nwkDataReq.h ../app_header.h ../stack/nwk/inc/nwkTx.h \
  ../stack/nwk/inc/nwkFrame.h ../stack/nwk/inc/nwkRoute.h \
  ../stack/nwk/inc/nwkGroup.h ../stack/nwk/inc/nwkCommand.h \
  ../stack/nwk/inc/nwkRouteDiscovery.h ../stack/nwk/inc/nwk.h
@@ -82,6 +82,8 @@ c:\apps\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmsp
 ../stack/nwk/inc/nwkSecurity.h:
 
 ../stack/nwk/inc/nwkDataReq.h:
+
+../app_header.h:
 
 ../stack/nwk/inc/nwkTx.h:
 
